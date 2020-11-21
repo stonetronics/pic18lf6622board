@@ -19,3 +19,5 @@ A Arduino-like Microcontroller board with a PIC18LF6622 microcontroller
  
 The Board is built to be programmed with a PICKit, altough one could also build a serial bootloader.
 
+### Uart Driver ###
+There is a MPLAB X Project UartTest.X that contains a test for a library that lets you use the uart. The driver is interrupt-driven and uses circular buffers to store incoming and outgoing data while not blocking the main program flow. This project can be used as template with integrated uart support + circular buffer middleware.
