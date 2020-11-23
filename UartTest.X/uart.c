@@ -112,20 +112,25 @@ void uart_println(const char* a)
 void uart_printUint8(uint8_t a)
 {
     uint8_t divisor = 1;
-    while (divisor < a)
+    if (a == 0)
     {
-        divisor *= 10;
-        if (divisor == 100)
-            break;
-    }
-    
-    if ((a%(divisor*10))/(divisor) == 0)
-        divisor /= 10; //skip first zero if necessary
-    
-    while (divisor >= 1)
-    {
-        uart_putc('0' + (a%(divisor*10))/(divisor));
-        divisor /= 10;
+        uart_putc('0');
+    } else {   
+        while (divisor < a)
+        {
+            divisor *= 10;
+            if (divisor == 100)
+                break;
+        }
+
+        if ((a%(divisor*10))/(divisor) == 0)
+            divisor /= 10; //skip first zero if necessary
+
+        while (divisor >= 1)
+        {
+            uart_putc('0' + (a%(divisor*10))/(divisor));
+            divisor /= 10;
+        }
     }
 }
 
@@ -163,24 +168,30 @@ void uart_printInt32(int32_t a)
 {
     int32_t modulor = 1;
     
-    if (a < 0)
+    if (a == 0)
     {
-        uart_putc('-');
-        a *= -1;
+        uart_putc('0');
+    } else {
+        if (a < 0)
+        {
+            uart_putc('-');
+            a *= -1;
+        }
+
+        while (modulor < a)
+        {
+            modulor *= 10;
+            if (modulor == 1000000000)
+                break;
+        }
+
+        while (modulor > 1)
+        {
+            uart_putc('0' + (a%modulor)/(modulor/10));
+            modulor /= 10;
+        }
     }
     
-    while (modulor < a)
-    {
-        modulor *= 10;
-        if (modulor == 1000000000)
-            break;
-    }
-    
-    while (modulor > 1)
-    {
-        uart_putc('0' + (a%modulor)/(modulor/10));
-        modulor /= 10;
-    }
 }
 
 void uart_printFloat(float a, uint8_t digitsAfterComma)

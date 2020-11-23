@@ -44,7 +44,7 @@ uint8_t uart_testAndGetc(char* c);
  
 void uart_putc(const char a);
 
-void uart_print();
+void uart_print(const char* a);
  
 void uart_newline();
 
